@@ -1,0 +1,334 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Pledgewise",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/entity": {
+      "get": {
+        "tags": [
+          "Entity"
+        ],
+        "operationId": "Entity_Get",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EntityPropertyNameEnumSortWebDTO"
+              }
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EntityPropertyNameEnumFilterWebDTO"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEntitiesWebResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEntitiesWebResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEntitiesWebResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EntityPropertyNameEnum": {
+        "enum": [
+          1
+        ],
+        "type": "integer",
+        "description": "\r\n\n\n1 = Name",
+        "format": "int32",
+        "x-enumNames": [
+          "Name"
+        ]
+      },
+      "EntityPropertyNameEnumFilterWebDTO": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EntityPropertyNameEnum"
+              }
+            ],
+            "description": "\r\n\n\n1 = Name",
+            "x-enumNames": [
+              "Name"
+            ]
+          },
+          "operator": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FilterOperatorEnum"
+              }
+            ],
+            "description": "\r\n* **1** - Equal\r\n* **2** - Not equal\r\n* **3** - Less than\r\n* **4** - Less than or equal\r\n* **5** - Greater than\r\n* **6** - Greater than or equal\r\n* **7** - Starts with\r\n* **8** - Ends with\r\n* **9** - Contains\r\n* **10** - Not contains\r\n\n\n1 = Eq\n\n2 = Neq\n\n3 = Lt\n\n4 = Lte\n\n5 = Gt\n\n6 = Gte\n\n7 = StartsWith\n\n8 = EndsWith\n\n9 = Contains\n\n10 = NotContains",
+            "x-enumNames": [
+              "Eq",
+              "Neq",
+              "Lt",
+              "Lte",
+              "Gt",
+              "Gte",
+              "StartsWith",
+              "EndsWith",
+              "Contains",
+              "NotContains"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "logic": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FilterLogicEnum"
+              }
+            ],
+            "description": "\r\n* **1** - And\r\n* **2** - Or\r\n\n\n1 = And\n\n2 = Or",
+            "x-enumNames": [
+              "And",
+              "Or"
+            ]
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityPropertyNameEnumFilterWebDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EntityPropertyNameEnumSortWebDTO": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EntityPropertyNameEnum"
+              }
+            ],
+            "description": "\r\n\n\n1 = Name",
+            "x-enumNames": [
+              "Name"
+            ]
+          },
+          "order": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrderByEnum"
+              }
+            ],
+            "description": "\r\n* **1** - Ascending\r\n* **2** - Descending\r\n\n\n1 = Ascending\n\n2 = Descending",
+            "x-enumNames": [
+              "Ascending",
+              "Descending"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "EntityTypeEnum": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "description": "\r\n\n\n1 = Company\n\n2 = Individual",
+        "format": "int32",
+        "x-enumNames": [
+          "Company",
+          "Individual"
+        ]
+      },
+      "EntityWebDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EntityTypeEnum"
+              }
+            ],
+            "description": "\r\n\n\n1 = Company\n\n2 = Individual",
+            "x-enumNames": [
+              "Company",
+              "Individual"
+            ]
+          },
+          "createdByUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EntityWebDTOPaginatedDataWebDTO": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityWebDTO"
+            },
+            "nullable": true
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FilterLogicEnum": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "description": "\r\n* **1** - And\r\n* **2** - Or\r\n\n\n1 = And\n\n2 = Or",
+        "format": "int32",
+        "x-enumNames": [
+          "And",
+          "Or"
+        ]
+      },
+      "FilterOperatorEnum": {
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "type": "integer",
+        "description": "\r\n* **1** - Equal\r\n* **2** - Not equal\r\n* **3** - Less than\r\n* **4** - Less than or equal\r\n* **5** - Greater than\r\n* **6** - Greater than or equal\r\n* **7** - Starts with\r\n* **8** - Ends with\r\n* **9** - Contains\r\n* **10** - Not contains\r\n\n\n1 = Eq\n\n2 = Neq\n\n3 = Lt\n\n4 = Lte\n\n5 = Gt\n\n6 = Gte\n\n7 = StartsWith\n\n8 = EndsWith\n\n9 = Contains\n\n10 = NotContains",
+        "format": "int32",
+        "x-enumNames": [
+          "Eq",
+          "Neq",
+          "Lt",
+          "Lte",
+          "Gt",
+          "Gte",
+          "StartsWith",
+          "EndsWith",
+          "Contains",
+          "NotContains"
+        ]
+      },
+      "GetEntitiesWebResponseDTO": {
+        "type": "object",
+        "properties": {
+          "entities": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EntityWebDTOPaginatedDataWebDTO"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderByEnum": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "description": "\r\n* **1** - Ascending\r\n* **2** - Descending\r\n\n\n1 = Ascending\n\n2 = Descending",
+        "format": "int32",
+        "x-enumNames": [
+          "Ascending",
+          "Descending"
+        ]
+      }
+    }
+  }
+}

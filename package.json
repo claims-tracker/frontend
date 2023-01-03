@@ -1,0 +1,30 @@
+{
+  "name": "claims-tracker",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "api": "npx openapi-codegen gen api"
+  },
+  "dependencies": {
+    "@next/font": "13.1.1",
+    "@openapi-codegen/cli": "^2.0.0",
+    "@openapi-codegen/typescript": "^6.1.0",
+    "@tanstack/react-query": "^4.20.4",
+    "@types/lodash": "^4.14.191",
+    "@types/node": "18.11.18",
+    "@types/react": "18.0.26",
+    "@types/react-dom": "18.0.10",
+    "eslint": "8.31.0",
+    "eslint-config-next": "13.1.1",
+    "lodash": "^4.17.21",
+    "next": "13.1.1",
+    "orval": "^6.10.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "4.9.4"
+  }
+}
