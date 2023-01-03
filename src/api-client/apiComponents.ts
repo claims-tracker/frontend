@@ -71,8 +71,162 @@ export const useEntityGet = <TData = Schemas.GetEntitiesWebResponseDTO>(
   );
 };
 
-export type QueryOperation = {
-  path: "/api/entity";
-  operationId: "entityGet";
-  variables: EntityGetVariables;
+export type EntityPostError = Fetcher.ErrorWrapper<undefined>;
+
+export type EntityPostRequestBody = Schemas.PostEntitiesWebRequestDTO;
+
+export type EntityPostVariables = {
+  body?: EntityPostRequestBody;
+} & ApiContext["fetcherOptions"];
+
+export const fetchEntityPost = (
+  variables: EntityPostVariables,
+  signal?: AbortSignal
+) =>
+  apiFetch<
+    Schemas.PostEntitiesWebResponseDTO,
+    EntityPostError,
+    EntityPostRequestBody,
+    {},
+    {},
+    {}
+  >({ url: "/api/entity", method: "post", ...variables, signal });
+
+export const useEntityPost = (
+  options?: Omit<
+    reactQuery.UseMutationOptions<
+      Schemas.PostEntitiesWebResponseDTO,
+      EntityPostError,
+      EntityPostVariables
+    >,
+    "mutationFn"
+  >
+) => {
+  const { fetcherOptions } = useApiContext();
+  return reactQuery.useMutation<
+    Schemas.PostEntitiesWebResponseDTO,
+    EntityPostError,
+    EntityPostVariables
+  >(
+    (variables: EntityPostVariables) =>
+      fetchEntityPost({ ...fetcherOptions, ...variables }),
+    options
+  );
 };
+
+export type EntityPutError = Fetcher.ErrorWrapper<undefined>;
+
+export type EntityPutRequestBody = Schemas.PutEntitiesWebRequestDTO;
+
+export type EntityPutVariables = {
+  body?: EntityPutRequestBody;
+} & ApiContext["fetcherOptions"];
+
+export const fetchEntityPut = (
+  variables: EntityPutVariables,
+  signal?: AbortSignal
+) =>
+  apiFetch<
+    Schemas.PutEntitiesWebResponseDTO,
+    EntityPutError,
+    EntityPutRequestBody,
+    {},
+    {},
+    {}
+  >({ url: "/api/entity", method: "put", ...variables, signal });
+
+export const useEntityPut = (
+  options?: Omit<
+    reactQuery.UseMutationOptions<
+      Schemas.PutEntitiesWebResponseDTO,
+      EntityPutError,
+      EntityPutVariables
+    >,
+    "mutationFn"
+  >
+) => {
+  const { fetcherOptions } = useApiContext();
+  return reactQuery.useMutation<
+    Schemas.PutEntitiesWebResponseDTO,
+    EntityPutError,
+    EntityPutVariables
+  >(
+    (variables: EntityPutVariables) =>
+      fetchEntityPut({ ...fetcherOptions, ...variables }),
+    options
+  );
+};
+
+export type PledgeGetQueryParams = {
+  /**
+   * @maximum 100
+   * @minimum 1
+   * @format int32
+   */
+  count?: number;
+  /**
+   * @maximum 2147483647
+   * @minimum 1
+   * @format int32
+   */
+  page?: number;
+  sort?: Schemas.PledgePropertyNameEnumSortWebDTO[];
+  filter?: Schemas.PledgePropertyNameEnumFilterWebDTO[];
+};
+
+export type PledgeGetError = Fetcher.ErrorWrapper<undefined>;
+
+export type PledgeGetVariables = {
+  queryParams?: PledgeGetQueryParams;
+} & ApiContext["fetcherOptions"];
+
+export const fetchPledgeGet = (
+  variables: PledgeGetVariables,
+  signal?: AbortSignal
+) =>
+  apiFetch<
+    Schemas.GetPledgesWebResponseDTO,
+    PledgeGetError,
+    undefined,
+    {},
+    PledgeGetQueryParams,
+    {}
+  >({ url: "/api/pledge", method: "get", ...variables, signal });
+
+export const usePledgeGet = <TData = Schemas.GetPledgesWebResponseDTO>(
+  variables: PledgeGetVariables,
+  options?: Omit<
+    reactQuery.UseQueryOptions<
+      Schemas.GetPledgesWebResponseDTO,
+      PledgeGetError,
+      TData
+    >,
+    "queryKey" | "queryFn"
+  >
+) => {
+  const { fetcherOptions, queryOptions, queryKeyFn } = useApiContext(options);
+  return reactQuery.useQuery<
+    Schemas.GetPledgesWebResponseDTO,
+    PledgeGetError,
+    TData
+  >(
+    queryKeyFn({ path: "/api/pledge", operationId: "pledgeGet", variables }),
+    ({ signal }) => fetchPledgeGet({ ...fetcherOptions, ...variables }, signal),
+    {
+      ...options,
+      ...queryOptions,
+    }
+  );
+};
+
+export type QueryOperation =
+  | {
+      path: "/api/entity";
+      operationId: "entityGet";
+      variables: EntityGetVariables;
+    }
+  | {
+      path: "/api/pledge";
+      operationId: "pledgeGet";
+      variables: PledgeGetVariables;
+    };

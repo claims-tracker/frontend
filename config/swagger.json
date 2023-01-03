@@ -79,6 +79,200 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Entity"
+        ],
+        "operationId": "Entity_Post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PostEntitiesWebRequestDTO"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PostEntitiesWebRequestDTO"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PostEntitiesWebRequestDTO"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostEntitiesWebResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostEntitiesWebResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostEntitiesWebResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Entity"
+        ],
+        "operationId": "Entity_Put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PutEntitiesWebRequestDTO"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PutEntitiesWebRequestDTO"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PutEntitiesWebRequestDTO"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PutEntitiesWebResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PutEntitiesWebResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PutEntitiesWebResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pledge": {
+      "get": {
+        "tags": [
+          "Pledge"
+        ],
+        "operationId": "Pledge_Get",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PledgePropertyNameEnumSortWebDTO"
+              }
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PledgePropertyNameEnumFilterWebDTO"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPledgesWebResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPledgesWebResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPledgesWebResponseDTO"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -200,6 +394,38 @@
       "EntityWebDTO": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdByUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pledgesCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fullfiledPledgesCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "failedPledgesCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pendingPledgesCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "delayedPledgesCount": {
+            "type": "integer",
+            "format": "int32"
+          },
           "name": {
             "type": "string",
             "nullable": true
@@ -219,14 +445,6 @@
               "Company",
               "Individual"
             ]
-          },
-          "createdByUserId": {
-            "type": "string",
-            "nullable": true
-          },
-          "createdOn": {
-            "type": "string",
-            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -316,6 +534,20 @@
         },
         "additionalProperties": false
       },
+      "GetPledgesWebResponseDTO": {
+        "type": "object",
+        "properties": {
+          "pledges": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PledgeWebDTOPaginatedDataWebDTO"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "OrderByEnum": {
         "enum": [
           1,
@@ -328,6 +560,334 @@
           "Ascending",
           "Descending"
         ]
+      },
+      "PledgePropertyNameEnum": {
+        "enum": [
+          1
+        ],
+        "type": "integer",
+        "description": "\r\n\n\n1 = Name",
+        "format": "int32",
+        "x-enumNames": [
+          "Name"
+        ]
+      },
+      "PledgePropertyNameEnumFilterWebDTO": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PledgePropertyNameEnum"
+              }
+            ],
+            "description": "\r\n\n\n1 = Name",
+            "x-enumNames": [
+              "Name"
+            ]
+          },
+          "operator": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FilterOperatorEnum"
+              }
+            ],
+            "description": "\r\n* **1** - Equal\r\n* **2** - Not equal\r\n* **3** - Less than\r\n* **4** - Less than or equal\r\n* **5** - Greater than\r\n* **6** - Greater than or equal\r\n* **7** - Starts with\r\n* **8** - Ends with\r\n* **9** - Contains\r\n* **10** - Not contains\r\n\n\n1 = Eq\n\n2 = Neq\n\n3 = Lt\n\n4 = Lte\n\n5 = Gt\n\n6 = Gte\n\n7 = StartsWith\n\n8 = EndsWith\n\n9 = Contains\n\n10 = NotContains",
+            "x-enumNames": [
+              "Eq",
+              "Neq",
+              "Lt",
+              "Lte",
+              "Gt",
+              "Gte",
+              "StartsWith",
+              "EndsWith",
+              "Contains",
+              "NotContains"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "logic": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FilterLogicEnum"
+              }
+            ],
+            "description": "\r\n* **1** - And\r\n* **2** - Or\r\n\n\n1 = And\n\n2 = Or",
+            "x-enumNames": [
+              "And",
+              "Or"
+            ]
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PledgePropertyNameEnumFilterWebDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PledgePropertyNameEnumSortWebDTO": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PledgePropertyNameEnum"
+              }
+            ],
+            "description": "\r\n\n\n1 = Name",
+            "x-enumNames": [
+              "Name"
+            ]
+          },
+          "order": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrderByEnum"
+              }
+            ],
+            "description": "\r\n* **1** - Ascending\r\n* **2** - Descending\r\n\n\n1 = Ascending\n\n2 = Descending",
+            "x-enumNames": [
+              "Ascending",
+              "Descending"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "PledgeStatusEnum": {
+        "enum": [
+          1,
+          2,
+          4,
+          8
+        ],
+        "type": "integer",
+        "description": "\r\n\n\n1 = Pending\n\n2 = Fulfilled\n\n4 = Failed\n\n8 = Late",
+        "format": "int32",
+        "x-enumNames": [
+          "Pending",
+          "Fulfilled",
+          "Failed",
+          "Late"
+        ]
+      },
+      "PledgeUpdateTypeEnum": {
+        "enum": [
+          1,
+          2,
+          4
+        ],
+        "type": "integer",
+        "description": "\r\n\n\n1 = Delay\n\n2 = Fullfiled\n\n4 = Failed",
+        "format": "int32",
+        "x-enumNames": [
+          "Delay",
+          "Fullfiled",
+          "Failed"
+        ]
+      },
+      "PledgeUpdateWebDTO": {
+        "type": "object",
+        "properties": {
+          "pledgeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdByUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PledgeUpdateTypeEnum"
+              }
+            ],
+            "description": "\r\n\n\n1 = Delay\n\n2 = Fullfiled\n\n4 = Failed",
+            "x-enumNames": [
+              "Delay",
+              "Fullfiled",
+              "Failed"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "PledgeWebDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pledgeUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PledgeUpdateWebDTO"
+            },
+            "nullable": true
+          },
+          "entityId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdByUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PledgeStatusEnum"
+              }
+            ],
+            "description": "\r\n\n\n1 = Pending\n\n2 = Fulfilled\n\n4 = Failed\n\n8 = Late",
+            "x-enumNames": [
+              "Pending",
+              "Fulfilled",
+              "Failed",
+              "Late"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "PledgeWebDTOPaginatedDataWebDTO": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PledgeWebDTO"
+            },
+            "nullable": true
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PostEntitiesWebRequestDTO": {
+        "type": "object",
+        "properties": {
+          "entities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PostEntityWebDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PostEntitiesWebResponseDTO": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PostEntityWebDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EntityTypeEnum"
+              }
+            ],
+            "description": "\r\n\n\n1 = Company\n\n2 = Individual",
+            "x-enumNames": [
+              "Company",
+              "Individual"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "PutEntitiesWebRequestDTO": {
+        "type": "object",
+        "properties": {
+          "entities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PutEntityWebDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PutEntitiesWebResponseDTO": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "PutEntityWebDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EntityTypeEnum"
+              }
+            ],
+            "description": "\n\n1 = Company\n\n2 = Individual",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       }
     }
   }
