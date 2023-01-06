@@ -4,6 +4,8 @@ import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
 import { useEntityGet } from "../api-client/apiComponents";
 import { FilterLogicEnum } from "../api-client/apiSchemas";
+import PledgeCard from "components/pledgeCard/PledgeCard";
+import Entity from "components/entity/Entity";
 
 const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
@@ -29,9 +31,9 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
-          <pre>
-            <p>{data && JSON.stringify(data, null, 2)}</p>
-          </pre>
+          {data?.entities?.items?.map((entity) => (
+            <Entity entity={entity} key={entity.id} />
+          ))}
           <div>
             <a
               href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
