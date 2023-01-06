@@ -731,11 +731,32 @@
             "type": "string",
             "format": "date-time"
           },
+          "voteScore": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "voted": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VoteTypeEnum"
+              }
+            ],
+            "description": "\r\n\n\n0 = NotVoted\n\n1 = VotedUp\n\n-1 = VotedDown",
+            "x-enumNames": [
+              "NotVoted",
+              "VotedUp",
+              "VotedDown"
+            ]
+          },
           "pledgeUpdates": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PledgeUpdateWebDTO"
             },
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
             "nullable": true
           },
           "entityId": {
@@ -888,6 +909,21 @@
           }
         },
         "additionalProperties": false
+      },
+      "VoteTypeEnum": {
+        "enum": [
+          0,
+          1,
+          -1
+        ],
+        "type": "integer",
+        "description": "\r\n\n\n0 = NotVoted\n\n1 = VotedUp\n\n-1 = VotedDown",
+        "format": "int32",
+        "x-enumNames": [
+          "NotVoted",
+          "VotedUp",
+          "VotedDown"
+        ]
       }
     }
   }

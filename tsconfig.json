@@ -16,6 +16,8 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
+      "hooks/*": ["./src/hooks/*"],
+      "icons/*": ["./src/icons/*"],
       "components/*": ["./src/components/*"],
       "api-client/*": ["./src/api-client/*"]
     }

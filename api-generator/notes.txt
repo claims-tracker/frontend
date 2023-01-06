@@ -1,0 +1,8 @@
+I tried:
+1. https://github.com/fabien0102/openapi-codegen
+Which doesn't support enums and dates
+
+2. https://github.com/ferdikoomen/openapi-typescript-codegen
+Which doesn't support dates
+
+3. Nswag which seems to work quite well but doesn't generate everything we might want
