@@ -1,4 +1,4 @@
-import { EntityWebDTO } from "api-client/apiSchemas";
+import { EntityWebDTO } from "api-client/api-client";
 import * as React from "react";
 
 export interface EntityProps {

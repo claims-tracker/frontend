@@ -10,7 +10,7 @@
     "test": "jest",
     "api": "npx openapi-codegen gen api",
     "api2": "openapi -i ./api-generator/swagger.json -o ./src/api-client",
-    "api3": "nswag openapi2tsclient /input:api-generator/nswag.json",
+    "api3": "nswag openapi2tsclient /input:api-generator/swagger.json /output:src/api-client/api-client.ts /clientBaseClass:ApiClientBase /ExtensionCode:src/api-client/api-client-extensions.ts /configurationClass:IApiClientConfig /useTransformOptionsMethod:true /typeStyle:Interface /dateTimeType:DayJS",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -27,6 +27,7 @@
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.10",
+    "dayjs": "^1.11.7",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.1",
     "framer-motion": "^8.1.9",

@@ -410,7 +410,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "fullfiledPledgesCount": {
+          "fulfilledPledgesCount": {
             "type": "integer",
             "format": "int32"
           },
@@ -520,6 +520,38 @@
           "NotContains"
         ]
       },
+      "GetEntitiesWebRequestDTO": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityPropertyNameEnumSortWebDTO"
+            },
+            "nullable": true
+          },
+          "filter": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityPropertyNameEnumFilterWebDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetEntitiesWebResponseDTO": {
         "type": "object",
         "properties": {
@@ -529,6 +561,38 @@
                 "$ref": "#/components/schemas/EntityWebDTOPaginatedDataWebDTO"
               }
             ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPledgesWebRequestDTO": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PledgePropertyNameEnumSortWebDTO"
+            },
+            "nullable": true
+          },
+          "filter": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PledgePropertyNameEnumFilterWebDTO"
+            },
             "nullable": true
           }
         },
@@ -559,6 +623,21 @@
         "x-enumNames": [
           "Ascending",
           "Descending"
+        ]
+      },
+      "PledgeCategoryEnum": {
+        "enum": [
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "description": "\r\n\n\n1 = Other\n\n2 = Technology\n\n3 = Business",
+        "format": "int32",
+        "x-enumNames": [
+          "Other",
+          "Technology",
+          "Business"
         ]
       },
       "PledgePropertyNameEnum": {
@@ -685,11 +764,11 @@
           4
         ],
         "type": "integer",
-        "description": "\r\n\n\n1 = Delay\n\n2 = Fullfiled\n\n4 = Failed",
+        "description": "\r\n\n\n1 = Delay\n\n2 = Fulfilled\n\n4 = Failed",
         "format": "int32",
         "x-enumNames": [
           "Delay",
-          "Fullfiled",
+          "Fulfilled",
           "Failed"
         ]
       },
@@ -710,10 +789,10 @@
                 "$ref": "#/components/schemas/PledgeUpdateTypeEnum"
               }
             ],
-            "description": "\r\n\n\n1 = Delay\n\n2 = Fullfiled\n\n4 = Failed",
+            "description": "\r\n\n\n1 = Delay\n\n2 = Fulfilled\n\n4 = Failed",
             "x-enumNames": [
               "Delay",
-              "Fullfiled",
+              "Fulfilled",
               "Failed"
             ]
           }
@@ -754,6 +833,26 @@
               "$ref": "#/components/schemas/PledgeUpdateWebDTO"
             },
             "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "category": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PledgeCategoryEnum"
+              }
+            ],
+            "description": "\r\n\n\n1 = Other\n\n2 = Technology\n\n3 = Business",
+            "x-enumNames": [
+              "Other",
+              "Technology",
+              "Business"
+            ]
           },
           "description": {
             "type": "string",

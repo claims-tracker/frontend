@@ -16,6 +16,8 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
+      "utils/*": ["./src/utils/*"],
+      "common/*": ["./src/common/*"],
       "hooks/*": ["./src/hooks/*"],
       "icons/*": ["./src/icons/*"],
       "components/*": ["./src/components/*"],

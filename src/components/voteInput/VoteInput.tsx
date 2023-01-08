@@ -4,6 +4,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
   createIcon,
   Flex,
+  FlexProps,
   IconButton,
   IconButtonProps,
   Text,
@@ -19,21 +20,28 @@ import { VoteDownIcon } from "icons/VoteDownIcon";
 
 export type VoteType = 0 | -1 | 1;
 
-export interface VoteInputProps {
+export interface VoteInputProps extends FlexProps {
   voteScore: number | undefined;
   voted: VoteType | undefined;
   loggedIn?: boolean;
   logIn?: () => void;
-  onVote: (type: VoteType) => void;
+  onVote?: (type: VoteType) => void;
 }
 
 const sharedButtonProps: Partial<IconButtonProps> = {
   variant: "ghost",
   colorScheme: "purple",
-  height: "1.5rem",
+  size: "md",
 };
 
-const VoteInput: React.FC<VoteInputProps> = ({ voteScore, voted, onVote }) => {
+const VoteInput: React.FC<VoteInputProps> = ({
+  voteScore,
+  voted,
+  onVote,
+  logIn,
+  loggedIn,
+  ...rest
+}) => {
   const [score, setScore] = useCreateLocalCopy(voteScore ?? 0);
   const [votedFinal, setVoted] = useCreateLocalCopy(voted ?? 0);
   const voteUpOrDown = React.useCallback(
@@ -53,7 +61,7 @@ const VoteInput: React.FC<VoteInputProps> = ({ voteScore, voted, onVote }) => {
   const voteUp = React.useCallback(() => voteUpOrDown(1)(), [voteUpOrDown]);
   const voteDown = React.useCallback(() => voteUpOrDown(-1)(), [voteUpOrDown]);
   return (
-    <Flex alignItems="center">
+    <Flex alignItems="center" {...rest}>
       <IconButton
         {...sharedButtonProps}
         aria-label="Vote down"
@@ -61,7 +69,7 @@ const VoteInput: React.FC<VoteInputProps> = ({ voteScore, voted, onVote }) => {
         onClick={voteDown}
         test-id="vote-down-button"
       />
-      <Text textAlign="center" minW="1rem">
+      <Text textAlign="center" minW="1rem" fontWeight="bold">
         {score}
       </Text>
       <IconButton
