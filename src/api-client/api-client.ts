@@ -400,6 +400,8 @@ export interface GetPledgesWebRequestDTO {
 
 export interface GetPledgesWebResponseDTO {
     pledges?: PledgeWebDTOPaginatedDataWebDTO | undefined;
+    users?: UserWebDTO[] | undefined;
+    entities?: EntityWebDTO[] | undefined;
 }
 
 /** * **1** - Ascending * **2** - Descending 1 = Ascending 2 = Descending */
@@ -609,6 +611,14 @@ export interface PutEntityWebDTO {
 
 2 = Individual */
     type?: EntityTypeEnum | undefined;
+}
+
+export interface UserWebDTO {
+    id?: string;
+    createdOn?: dayjs.Dayjs;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    username?: string | undefined;
 }
 
 /** 0 = NotVoted 1 = VotedUp -1 = VotedDown */
