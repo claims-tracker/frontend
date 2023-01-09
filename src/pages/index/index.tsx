@@ -1,17 +1,10 @@
+import React from "react";
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.css";
 import PledgeCard from "components/pledgeCard/PledgeCard";
 import { usePledges } from "api-client/api-client-query";
 
-const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
-  const { data, error, isLoading } = usePledges({
-    page: 1,
-    count: 25,
-  });
-
+  const { data, error, isLoading } = usePledges({});
   return (
     <>
       <Head>
@@ -20,7 +13,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
+      <main>
         <div>
           {data?.pledges?.items?.map((pledge) => (
             <PledgeCard

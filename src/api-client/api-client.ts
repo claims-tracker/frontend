@@ -31,7 +31,7 @@ export class EntityClient extends ApiClientBase {
      * @return Success
      */
     get(count: number | undefined, page: number | undefined, sort: EntityPropertyNameEnumSortWebDTO[] | undefined, filter: EntityPropertyNameEnumFilterWebDTO[] | undefined): Promise<GetEntitiesWebResponseDTO> {
-        let url_ = this.baseUrl + "/api/entity?";
+        let url_ = this.baseUrl + "/rest/entity?";
         if (count === null)
             throw new Error("The parameter 'count' cannot be null.");
         else if (count !== undefined)
@@ -96,7 +96,7 @@ export class EntityClient extends ApiClientBase {
      * @return Success
      */
     post(body: PostEntitiesWebRequestDTO | undefined): Promise<PostEntitiesWebResponseDTO> {
-        let url_ = this.baseUrl + "/api/entity";
+        let url_ = this.baseUrl + "/rest/entity";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -139,7 +139,7 @@ export class EntityClient extends ApiClientBase {
      * @return Success
      */
     put(body: PutEntitiesWebRequestDTO | undefined): Promise<PutEntitiesWebResponseDTO> {
-        let url_ = this.baseUrl + "/api/entity";
+        let url_ = this.baseUrl + "/rest/entity";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -197,7 +197,7 @@ export class PledgeClient extends ApiClientBase {
      * @return Success
      */
     get(count: number | undefined, page: number | undefined, sort: PledgePropertyNameEnumSortWebDTO[] | undefined, filter: PledgePropertyNameEnumFilterWebDTO[] | undefined): Promise<GetPledgesWebResponseDTO> {
-        let url_ = this.baseUrl + "/api/pledge?";
+        let url_ = this.baseUrl + "/rest/pledge?";
         if (count === null)
             throw new Error("The parameter 'count' cannot be null.");
         else if (count !== undefined)
@@ -327,14 +327,14 @@ export interface EntityPropertyNameEnumSortWebDTO {
     order?: OrderByEnum;
 }
 
-/** 1 = Company 2 = Individual */
+/** 1 = Organization 2 = Individual */
 export enum EntityTypeEnum {
-    Company = 1,
+    Organization = 1,
     Individual = 2,
 }
 
 export interface EntityWebDTO {
-    id?: number;
+    id?: string;
     createdByUserId?: string | undefined;
     createdOn?: dayjs.Dayjs;
     pledgesCount?: number;
@@ -346,7 +346,7 @@ export interface EntityWebDTO {
     description?: string | undefined;
     /** 
 
-1 = Company
+1 = Organization
 
 2 = Individual */
     type?: EntityTypeEnum;
@@ -408,11 +408,15 @@ export enum OrderByEnum {
     Descending = 2,
 }
 
-/** 1 = Other 2 = Technology 3 = Business */
+/** 1 = Other 2 = Technology 3 = Business 4 = Politics 5 = PublicProjects 6 = Medical 7 = Science */
 export enum PledgeCategoryEnum {
     Other = 1,
     Technology = 2,
     Business = 3,
+    Politics = 4,
+    PublicProjects = 5,
+    Medical = 6,
+    Science = 7,
 }
 
 /** 1 = Name */
@@ -484,12 +488,12 @@ export interface PledgePropertyNameEnumSortWebDTO {
     order?: OrderByEnum;
 }
 
-/** 1 = Pending 2 = Fulfilled 4 = Failed 8 = Late */
+/** 1 = Pending 2 = Fulfilled 4 = Failed 8 = Postponed */
 export enum PledgeStatusEnum {
     Pending = 1,
     Fulfilled = 2,
     Failed = 4,
-    Late = 8,
+    Postponed = 8,
 }
 
 /** 1 = Delay 2 = Fulfilled 4 = Failed */
@@ -500,7 +504,7 @@ export enum PledgeUpdateTypeEnum {
 }
 
 export interface PledgeUpdateWebDTO {
-    pledgeId?: number;
+    pledgeId?: string | undefined;
     createdByUserId?: string | undefined;
     /** 
 
@@ -513,7 +517,7 @@ export interface PledgeUpdateWebDTO {
 }
 
 export interface PledgeWebDTO {
-    id?: number;
+    id?: string;
     createdOn?: dayjs.Dayjs;
     voteScore?: number;
     /** 
@@ -532,11 +536,22 @@ export interface PledgeWebDTO {
 
 2 = Technology
 
-3 = Business */
+3 = Business
+
+4 = Politics
+
+5 = PublicProjects
+
+6 = Medical
+
+7 = Science */
     category?: PledgeCategoryEnum;
+    /** Short text */
+    name?: string | undefined;
+    /** Long text (optional) */
     description?: string | undefined;
-    entityId?: number;
-    createdByUserId?: string | undefined;
+    entityId?: string | undefined;
+    createdByUserId?: string;
     /** 
 
 1 = Pending
@@ -545,8 +560,9 @@ export interface PledgeWebDTO {
 
 4 = Failed
 
-8 = Late */
+8 = Postponed */
     status?: PledgeStatusEnum;
+    deliverBy?: dayjs.Dayjs;
 }
 
 export interface PledgeWebDTOPaginatedDataWebDTO {
@@ -562,7 +578,7 @@ export interface PostEntitiesWebRequestDTO {
 }
 
 export interface PostEntitiesWebResponseDTO {
-    ids?: number[] | undefined;
+    ids?: string[] | undefined;
 }
 
 export interface PostEntityWebDTO {
@@ -570,7 +586,7 @@ export interface PostEntityWebDTO {
     description?: string | undefined;
     /** 
 
-1 = Company
+1 = Organization
 
 2 = Individual */
     type?: EntityTypeEnum;
@@ -584,12 +600,12 @@ export interface PutEntitiesWebResponseDTO {
 }
 
 export interface PutEntityWebDTO {
-    id?: number;
+    id?: string;
     name?: string | undefined;
     description?: string | undefined;
     /** 
 
-1 = Company
+1 = Organization
 
 2 = Individual */
     type?: EntityTypeEnum | undefined;

@@ -8,10 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "api": "npx openapi-codegen gen api",
+    "api3": "npx openapi-codegen gen api",
     "api2": "openapi -i ./api-generator/swagger.json -o ./src/api-client",
-    "api3": "nswag openapi2tsclient /input:api-generator/swagger.json /output:src/api-client/api-client.ts /clientBaseClass:ApiClientBase /ExtensionCode:src/api-client/api-client-extensions.ts /configurationClass:IApiClientConfig /useTransformOptionsMethod:true /typeStyle:Interface /dateTimeType:DayJS",
-    "storybook": "start-storybook -p 6006",
+    "api": "nswag openapi2tsclient /input:api-generator/swagger.json /output:src/api-client/api-client.ts /clientBaseClass:ApiClientBase /ExtensionCode:src/api-client/api-client-extensions.ts /configurationClass:IApiClientConfig /useTransformOptionsMethod:true /typeStyle:Interface /dateTimeType:DayJS",
+    "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "@openapi-codegen/cli": "^2.0.0",
     "@openapi-codegen/typescript": "^6.1.0",
     "@tanstack/react-query": "^4.20.4",
+    "@tanstack/react-query-devtools": "^4.21.0",
     "@types/lodash": "^4.14.191",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
@@ -32,9 +33,12 @@
     "eslint-config-next": "13.1.1",
     "framer-motion": "^8.1.9",
     "lodash": "^4.17.21",
+    "msw": "^0.49.2",
+    "msw-storybook-addon": "^1.6.3",
     "next": "13.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.7.1",
     "typescript": "4.9.4"
   },
   "devDependencies": {
@@ -61,5 +65,8 @@
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^4.0.0"
+  },
+  "msw": {
+    "workerDirectory": "./public"
   }
 }

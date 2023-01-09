@@ -13,7 +13,7 @@ const Template: ComponentStory<typeof Entity> = (args) => <Entity {...args} />;
 
 export const Simple = Template.bind({});
 Simple.args = {
-  entity: { id: 1 },
+  entity: { id: "1" },
 };
 Simple.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
@@ -22,5 +22,5 @@ Simple.play = async ({ canvasElement }) => {
 
 export const Complex = Template.bind({});
 Complex.args = {
-  entity: { id: 2 },
+  entity: { id: "2" },
 };

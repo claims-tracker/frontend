@@ -5,7 +5,7 @@
     "version": "v1"
   },
   "paths": {
-    "/api/entity": {
+    "/rest/entity": {
       "get": {
         "tags": [
           "Entity"
@@ -199,7 +199,7 @@
         }
       }
     },
-    "/api/pledge": {
+    "/rest/pledge": {
       "get": {
         "tags": [
           "Pledge"
@@ -384,10 +384,10 @@
           2
         ],
         "type": "integer",
-        "description": "\r\n\n\n1 = Company\n\n2 = Individual",
+        "description": "\r\n\n\n1 = Organization\n\n2 = Individual",
         "format": "int32",
         "x-enumNames": [
-          "Company",
+          "Organization",
           "Individual"
         ]
       },
@@ -395,8 +395,8 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "format": "uuid"
           },
           "createdByUserId": {
             "type": "string",
@@ -440,9 +440,9 @@
                 "$ref": "#/components/schemas/EntityTypeEnum"
               }
             ],
-            "description": "\r\n\n\n1 = Company\n\n2 = Individual",
+            "description": "\r\n\n\n1 = Organization\n\n2 = Individual",
             "x-enumNames": [
-              "Company",
+              "Organization",
               "Individual"
             ]
           }
@@ -608,6 +608,20 @@
               }
             ],
             "nullable": true
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserWebDTO"
+            },
+            "nullable": true
+          },
+          "entities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityWebDTO"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -629,15 +643,23 @@
         "enum": [
           1,
           2,
-          3
+          3,
+          4,
+          5,
+          6,
+          7
         ],
         "type": "integer",
-        "description": "\r\n\n\n1 = Other\n\n2 = Technology\n\n3 = Business",
+        "description": "\r\n\n\n1 = Other\n\n2 = Technology\n\n3 = Business\n\n4 = Politics\n\n5 = PublicProjects\n\n6 = Medical\n\n7 = Science",
         "format": "int32",
         "x-enumNames": [
           "Other",
           "Technology",
-          "Business"
+          "Business",
+          "Politics",
+          "PublicProjects",
+          "Medical",
+          "Science"
         ]
       },
       "PledgePropertyNameEnum": {
@@ -748,13 +770,13 @@
           8
         ],
         "type": "integer",
-        "description": "\r\n\n\n1 = Pending\n\n2 = Fulfilled\n\n4 = Failed\n\n8 = Late",
+        "description": "\r\n\n\n1 = Pending\n\n2 = Fulfilled\n\n4 = Failed\n\n8 = Postponed",
         "format": "int32",
         "x-enumNames": [
           "Pending",
           "Fulfilled",
           "Failed",
-          "Late"
+          "Postponed"
         ]
       },
       "PledgeUpdateTypeEnum": {
@@ -776,8 +798,8 @@
         "type": "object",
         "properties": {
           "pledgeId": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "nullable": true
           },
           "createdByUserId": {
             "type": "string",
@@ -803,8 +825,8 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "format": "uuid"
           },
           "createdOn": {
             "type": "string",
@@ -847,24 +869,34 @@
                 "$ref": "#/components/schemas/PledgeCategoryEnum"
               }
             ],
-            "description": "\r\n\n\n1 = Other\n\n2 = Technology\n\n3 = Business",
+            "description": "\r\n\n\n1 = Other\n\n2 = Technology\n\n3 = Business\n\n4 = Politics\n\n5 = PublicProjects\n\n6 = Medical\n\n7 = Science",
             "x-enumNames": [
               "Other",
               "Technology",
-              "Business"
+              "Business",
+              "Politics",
+              "PublicProjects",
+              "Medical",
+              "Science"
             ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Short text",
+            "nullable": true
           },
           "description": {
             "type": "string",
+            "description": "Long text (optional)",
             "nullable": true
           },
           "entityId": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "nullable": true
           },
           "createdByUserId": {
             "type": "string",
-            "nullable": true
+            "format": "uuid"
           },
           "status": {
             "allOf": [
@@ -872,13 +904,17 @@
                 "$ref": "#/components/schemas/PledgeStatusEnum"
               }
             ],
-            "description": "\r\n\n\n1 = Pending\n\n2 = Fulfilled\n\n4 = Failed\n\n8 = Late",
+            "description": "\r\n\n\n1 = Pending\n\n2 = Fulfilled\n\n4 = Failed\n\n8 = Postponed",
             "x-enumNames": [
               "Pending",
               "Fulfilled",
               "Failed",
-              "Late"
+              "Postponed"
             ]
+          },
+          "deliverBy": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -931,8 +967,8 @@
           "ids": {
             "type": "array",
             "items": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             },
             "nullable": true
           }
@@ -956,9 +992,9 @@
                 "$ref": "#/components/schemas/EntityTypeEnum"
               }
             ],
-            "description": "\r\n\n\n1 = Company\n\n2 = Individual",
+            "description": "\r\n\n\n1 = Organization\n\n2 = Individual",
             "x-enumNames": [
-              "Company",
+              "Organization",
               "Individual"
             ]
           }
@@ -986,8 +1022,8 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "format": "uuid"
           },
           "name": {
             "type": "string",
@@ -1003,7 +1039,33 @@
                 "$ref": "#/components/schemas/EntityTypeEnum"
               }
             ],
-            "description": "\n\n1 = Company\n\n2 = Individual",
+            "description": "\n\n1 = Organization\n\n2 = Individual",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserWebDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "username": {
+            "type": "string",
             "nullable": true
           }
         },
